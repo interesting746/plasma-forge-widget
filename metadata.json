@@ -1,0 +1,18 @@
+{
+    "KPlugin": {
+        "Id": "com.interesting12345.forgewidget",
+        "Name": "Forge Widget",
+        "Description": "A KDE Plasma Widget for Hypixel Skyblock forge times",
+        "Icon": "applications-system",
+        "Version": "1.0",
+        "License": "MIT"
+        "Authors": [
+            {
+            "Name": "interesting12345",
+            "Email": "interesting@veryinteresting.win"
+            }
+        ]
+    },
+    "KPackageStructure": "Plasma/Applet",
+    "X-Plasma-API-Minimum-Version": "6.0"
+}
