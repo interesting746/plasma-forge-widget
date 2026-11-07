@@ -5,7 +5,7 @@
         "Description": "A KDE Plasma Widget for Hypixel Skyblock forge times",
         "Icon": "applications-system",
         "Version": "1.0",
-        "License": "MIT"
+        "License": "MIT",
         "Authors": [
             {
             "Name": "interesting12345",
