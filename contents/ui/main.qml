@@ -11,9 +11,6 @@ PlasmoidItem {
 
     property date currentTime: new Date()
 
-    // preferredRepresentation: Plasmoid.compactRepresentation
-
-    // Compact version (normal widget)
     compactRepresentation: Component {
         MouseArea {
             id: compactRoot
@@ -38,8 +35,7 @@ PlasmoidItem {
     }
 
     Plasmoid.title: "Forge Timer"
-    
-    // Opened "Popup" (full view with "everything")
+
     fullRepresentation: ColumnLayout {
         id: forgeFullRepresentation
 
@@ -123,14 +119,16 @@ PlasmoidItem {
                     }
 
                     ColumnLayout {
-                        Layout.leftMargin: 10
+
                         Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
                         Layout.fillWidth: true
 
-                        spacing: -2
+                        spacing: 0
 
                         Text {
                             Layout.alignment: Qt.AlignLeft
+                            Layout.fillWidth: true
+                            Layout.leftMargin: 10
 
                             text: itemDelegate.name
                             font.bold: true
@@ -140,6 +138,8 @@ PlasmoidItem {
 
                         Text {
                             Layout.alignment: Qt.AlignLeft
+                            Layout.fillWidth: true
+                            Layout.leftMargin: 10
 
                             text: itemDelegate.process
                             font.pointSize: 10
@@ -149,7 +149,9 @@ PlasmoidItem {
                     }
                     
                 }
+
             }
+
         }
         
     }
