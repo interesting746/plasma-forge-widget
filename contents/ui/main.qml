@@ -43,6 +43,19 @@ PlasmoidItem {
         Layout.preferredHeight: 340
         spacing: 6
 
+        ColumnLayout {
+            id: infoContainer
+
+            Layout.preferredHeight: 30
+            Layout.preferredWidth: parent.width
+
+            Text {
+                text: "Some info here..."
+                color: '#a8a8a8'
+            }
+
+        }
+
         ListModel {
             id: forgeItems
 
@@ -97,57 +110,160 @@ PlasmoidItem {
                 id: itemDelegate
 
                 width: ListView.view.width
-                height: 40
+                height: itemContainer.isExpanded ? 240 : 40
 
                 required property string name
                 required property string iconurl
                 required property string process
 
-                RowLayout {
-                    id: item 
+                Rectangle {
+                    anchors.fill: parent
 
-                    width: forgeListView.width
-                    height: 40
-                    spacing: 0
+                    color: "transparent"
+                    border.color: "red"
+                    border.width: 1
+                }
 
-                    Image {
-                        Layout.alignment: verticalAlignment
-                        Layout.leftMargin: 10
-                        Layout.preferredWidth: 20
-                        Layout.preferredHeight: 20
-                        source: Qt.resolvedUrl(itemDelegate.iconurl)
+                contentItem: ColumnLayout {
+                    id: itemContainer
+
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+
+                    property bool isExpanded: false
+
+                    RowLayout {
+                        id: item 
+
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 40
+                        spacing: 0
+
+                        Image {
+                            Layout.alignment: verticalAlignment
+                            Layout.leftMargin: 10
+                            Layout.preferredWidth: 20
+                            Layout.preferredHeight: 20
+                            source: Qt.resolvedUrl(itemDelegate.iconurl)
+
+                            Rectangle {
+                                anchors.fill: parent
+
+                                color: "transparent"
+                                border.color: "green"
+                                border.width: 1
+                            }
+                        }
+
+                        ColumnLayout {
+
+                            Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
+                            Layout.fillWidth: true
+
+                            spacing: 0
+
+                            Text {
+                                Layout.alignment: Qt.AlignLeft
+                                Layout.fillWidth: true
+                                Layout.leftMargin: 15
+
+                                text: itemDelegate.name
+                                font.bold: true
+                                font.pointSize: 11
+                                color: "white"
+
+                                Rectangle {
+                                    anchors.fill: parent
+
+                                    color: "transparent"
+                                    border.color: "purple"
+                                    border.width: 1
+                                }
+                            }
+
+                            Text {
+                                Layout.alignment: Qt.AlignLeft
+                                Layout.fillWidth: true
+                                Layout.leftMargin: 15
+
+                                text: itemDelegate.process
+                                font.pointSize: 10
+                                color: "#dedede"
+
+                                Rectangle {
+                                    anchors.fill: parent
+
+                                    color: "transparent"
+                                    border.color: "purple"
+                                    border.width: 1
+                                }
+                            }
+
+                        }
+
+                        PlasmaComponents.Button {
+                            Layout.preferredHeight: 20
+                            Layout.preferredWidth: 20
+                            Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
+                            Layout.leftMargin: 10
+                            Layout.rightMargin: 10
+
+                            Text {
+                                anchors.centerIn: parent
+
+                                color: "white"
+                                text: itemContainer.isExpanded ? "▼" : "▶"
+                            }
+
+                            onClicked: {
+                                itemContainer.isExpanded = !itemContainer.isExpanded
+                            }
+                            
+                        }
+                        
                     }
 
                     ColumnLayout {
+                        id: itemSettings
 
-                        Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
                         Layout.fillWidth: true
+                        Layout.preferredHeight: itemContainer.isExpanded ? 200 : 0
+                        Layout.minimumHeight: 0
 
+                        clip: true
                         spacing: 0
 
-                        Text {
-                            Layout.alignment: Qt.AlignLeft
-                            Layout.fillWidth: true
-                            Layout.leftMargin: 10
-
-                            text: itemDelegate.name
-                            font.bold: true
-                            font.pointSize: 11
-                            color: "white"
+                        Behavior on Layout.preferredHeight {
+                            NumberAnimation {
+                                duration: 100
+                                easing.type: Easing.InOutQuad
+                            }
                         }
 
                         Text {
-                            Layout.alignment: Qt.AlignLeft
-                            Layout.fillWidth: true
-                            Layout.leftMargin: 10
+                            text: "test"
+                            color: "white"
 
-                            text: itemDelegate.process
-                            font.pointSize: 10
-                            color: "#dedede"
+                            Rectangle {
+                                anchors.fill: parent
+
+                                color: "transparent"
+                                border.color: "purple"
+                                border.width: 1
+                            }
+                        }
+
+                        Rectangle {
+                            Layout.fillHeight: true
+                            Layout.fillWidth: true
+
+                            color: "transparent"
+                            border.color: "white"
+                            border.width: 1
                         }
 
                     }
-                    
+
                 }
 
             }
