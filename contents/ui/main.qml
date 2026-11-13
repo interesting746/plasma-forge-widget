@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2026 interesting12345
+ * Licensed under the MIT License
+ */
+
 pragma ComponentBehavior: Bound
 
 import QtQuick
@@ -10,6 +15,34 @@ PlasmoidItem {
     id: root
 
     property date currentTime: new Date()
+
+    /* 
+     * converts seconds to a readable format
+     * parms: duration in seconds
+     * returns: user friendly readable time
+     */
+    function convertToDuration(duration: int): string {
+        var timeLeft = "";
+        var remaining = duration;
+
+        if (remaining / 86400 > 0) {
+            timeLeft += Math.floor(remaining / 86400) + "d ";
+            remaining -= Math.floor(remaining / 86400) * 86400;
+        }
+        if (remaining / 3600 > 0) {
+            timeLeft += Math.floor(remaining / 3600) + "h ";
+            remaining -= Math.floor(remaining / 3600) * 3600;
+        }
+        if (remaining / 60 > 0) {
+            timeLeft += Math.floor(remaining / 60) + "m ";
+            remaining -= Math.floor(remaining / 60) * 60;
+        }
+        if (remaining > 0) {
+            timeLeft += remaining + "s";
+        }
+
+        return timeLeft;
+    }
 
     compactRepresentation: Component {
         MouseArea {
@@ -59,40 +92,53 @@ PlasmoidItem {
         ListModel {
             id: forgeItems
 
-            ListElement { 
+            ListElement {
                 name: "Slot 1"
                 process: "Empty"
-                iconurl: "../assets/forgeicon.svg" 
+                iconurl: "../assets/forgeicon.svg"
+                duration: 10
             }
-            ListElement { 
+
+            ListElement {
                 name: "Slot 2"
                 process: "Empty"
-                iconurl: "../assets/forgeicon.svg" 
+                iconurl: "../assets/forgeicon.svg"
+                duration: 100
             }
-            ListElement { 
+
+            ListElement {
                 name: "Slot 3"
                 process: "Empty"
-                iconurl: "../assets/forgeicon.svg" 
+                iconurl: "../assets/forgeicon.svg"
+                duration: 1000
             }
-            ListElement { 
+
+            ListElement {
                 name: "Slot 4"
                 process: "Empty"
-                iconurl: "../assets/forgeicon.svg" 
+                iconurl: "../assets/forgeicon.svg"
+                duration: 10000
             }
-            ListElement { 
+
+            ListElement {
                 name: "Slot 5"
                 process: "Empty"
-                iconurl: "../assets/forgeicon.svg" 
+                iconurl: "../assets/forgeicon.svg"
+                duration: 100000
             }
-            ListElement { 
+
+            ListElement {
                 name: "Slot 6"
                 process: "Empty"
-                iconurl: "../assets/forgeicon.svg" 
+                iconurl: "../assets/forgeicon.svg"
+                duration: 1000000
             }
-            ListElement { 
+
+            ListElement {
                 name: "Slot 7"
                 process: "Empty"
-                iconurl: "../assets/forgeicon.svg" 
+                iconurl: "../assets/forgeicon.svg"
+                duration: 10000000
             }
         }
 
@@ -115,6 +161,7 @@ PlasmoidItem {
                 required property string name
                 required property string iconurl
                 required property string process
+                required property int duration
 
                 Rectangle {
                     anchors.fill: parent
@@ -162,23 +209,45 @@ PlasmoidItem {
 
                             spacing: 0
 
-                            Text {
-                                Layout.alignment: Qt.AlignLeft
-                                Layout.fillWidth: true
-                                Layout.leftMargin: 15
+                            RowLayout {
 
-                                text: itemDelegate.name
-                                font.bold: true
-                                font.pointSize: 11
-                                color: "white"
+                                Text {
+                                    Layout.alignment: Qt.AlignLeft
+                                    Layout.leftMargin: 15
+                                    Layout.rightMargin: 10
 
-                                Rectangle {
-                                    anchors.fill: parent
+                                    text: itemDelegate.name
+                                    font.bold: true
+                                    font.pointSize: 11
+                                    color: "white"
 
-                                    color: "transparent"
-                                    border.color: "purple"
-                                    border.width: 1
+                                    Rectangle {
+                                        anchors.fill: parent
+
+                                        color: "transparent"
+                                        border.color: "purple"
+                                        border.width: 1
+                                    }
                                 }
+
+                                Text {
+                                    Layout.alignment: Qt.AlignLeft
+                                    Layout.fillWidth: true
+
+                                    text: root.convertToDuration(itemDelegate.duration)
+                                    font.bold: true
+                                    font.pointSize: 11
+                                    color: "white"
+
+                                    Rectangle {
+                                        anchors.fill: parent
+
+                                        color: "transparent"
+                                        border.color: "purple"
+                                        border.width: 1
+                                    }
+                                }
+
                             }
 
                             Text {
@@ -253,6 +322,10 @@ PlasmoidItem {
                             }
                         }
 
+                        PlasmaComponents.Menu {
+
+                        }
+
                         Rectangle {
                             Layout.fillHeight: true
                             Layout.fillWidth: true
@@ -280,6 +353,16 @@ PlasmoidItem {
         
         onTriggered: {
             root.currentTime = new Date() 
+        }
+    }
+
+    Timer {
+        interval: 1000
+        running: true
+        repeat: true
+        
+        onTriggered: {
+            // TODO: add a duration decrementing system
         }
     }
 
